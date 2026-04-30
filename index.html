@@ -2,55 +2,13 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>GemRadar AI 🚀 FREE</title>
+<title>DETECTOR PRO+</title>
 
 <style>
 body { font-family: Arial; background:#0b1220; color:#e5e7eb; padding:20px; }
 h1 { color:#60a5fa; }
 
-.top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.actions{ display:flex; gap:10px; }
-
-.btn{
-  padding:10px 12px;
-  border-radius:8px;
-  color:white;
-  text-decoration:none;
-  font-weight:bold;
-}
-
-.pay{ background:#22c55e; }
-.tips{ background:#f59e0b; }
-
-.lang{ margin-left:15px; }
-
-.hero{
-  display:flex;
-  gap:10px;
-  margin-top:15px;
-}
-
-.hero img{
-  width:32%;
-  border-radius:12px;
-  object-fit:cover;
-  height:120px;
-}
-
-.panel{
-  background:#111827;
-  padding:12px;
-  border-radius:10px;
-  margin-top:10px;
-}
-
-.section{ margin-top:25px; }
-.lock{ opacity:0.4; }
+.panel { background:#111827; padding:12px; border-radius:10px; margin-top:10px; }
 
 .table { width:100%; border-collapse:collapse; margin-top:10px; }
 .table th,.table td { padding:8px; }
@@ -58,258 +16,114 @@ h1 { color:#60a5fa; }
 
 .contract { font-size:11px; color:#9ca3af; word-break:break-all; }
 
-button{
-  padding:6px 10px;
-  border:none;
-  border-radius:8px;
-  background:#60a5fa;
-  cursor:pointer;
-}
+button { padding:6px 10px; border:none; border-radius:8px; background:#60a5fa; cursor:pointer; }
 
-.notice{
-  background:#1f2937;
-  padding:10px;
-  border-radius:8px;
-  margin-top:10px;
-  font-size:13px;
-}
-
-.locked{
-  opacity:0.25;
-  border:1px dashed #374151;
-}
+.section { margin-top:25px; }
+.lang { position:absolute; top:20px; right:20px; }
 </style>
 </head>
 
 <body>
 
-<div class="top">
-<h1 id="title">🌱 GemRadar AI 🚀 FREE</h1>
+<h1>🚀 DETECTOR PRO+</h1>
 
-<div style="display:flex; align-items:center;">
-<div class="actions">
-<a class="btn pay" href="https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-0F538742UD349443SNHZIIRY" target="_blank" id="pro1">
-💳 Monthly PRO mensual $5.99
-</a>
-
-<a class="btn pay" href="https://www.paypal.com/ncp/payment/FENVE2U7UZNS6" target="_blank" id="pro2">
-💎 Lifetime PRO de por vida $39.99
-</a>
-
-<a class="btn tips" href="https://www.paypal.com/ncp/payment/SW4W7QJKDWLCS" target="_blank" id="tip">
-DONATE💚🍃 Apoya las iniciativas positivas
-</a>
-</div>
-
-<select id="langSelect" class="lang">
-<option value="es">🇪🇸 Español</option>
-<option value="en">🇺🇸 English</option>
-<option value="pt">🇧🇷 Português</option>
-<option value="ar">🇸🇦 العربية</option>
+<!-- 🌐 IDIOMAS -->
+<div class="lang">
+<select id="langSelect">
+<option value="es">Español</option>
+<option value="en">Inglés</option>
+<option value="pt">Portugués</option>
+<option value="ar">Árabe</option>
 </select>
 </div>
-</div>
 
-<div class="hero">
-<img src="https://images.unsplash.com/photo-1564349683136-77e08dba1ef7">
-<img src="https://images.unsplash.com/photo-1504208434309-cb69f4fe52b0">
-<img src="https://images.unsplash.com/photo-1517849845537-4d257902454a">
-</div>
+<button id="btnUpdate" onclick="runDetector()">🔄 Actualizar</button>
+<button onclick="toggleAuto()">⚡ AUTO</button>
 
-<div class="notice" id="notice1">
-⚠️ Versión FREE limitada. Mejora a PRO para desbloquear análisis completo, smart money y ranking avanzado.
-</div>
-
-<button id="updateBtn">🔄 Actualizar</button>
 <p id="status"></p>
 
-<!-- EARLY -->
 <div class="section">
-<h2 id="h2_early">🧨 Early Gems</h2>
+<h2 id="titleEarly">🧨 Early Gems</h2>
 <div id="pump"></div>
-<div class="panel locked">🔒 PRO</div>
-<div class="panel locked">🔒 PRO</div>
-<div class="panel locked">🔒 PRO</div>
 </div>
 
-<!-- WATCHLIST -->
-<div class="section lock">
-<h2 id="h2_watchlist">📌 Watchlist (PRO)</h2>
-<div class="panel" id="watchlist_text">🔒 Disponible en PRO</div>
-</div>
-
-<!-- MAX ALERT -->
 <div class="section">
-<h2 id="h2_max">🔴 Máxima Alerta</h2>
+<h2>💎 Micro Gems (ultra temprano) ⚠️ ALTO RIESGO</h2>
+<div id="micro"></div>
+</div>
+
+<div class="section">
+<h2 id="titleWatch">📌 Watchlist</h2>
+
+<input id="searchInput" placeholder="Buscar token o contrato">
+<button onclick="searchTokens()">Buscar</button>
+<button onclick="clearSearch()">Limpiar</button>
+
+<div id="searchResults" class="panel"></div>
+
+<br><br>
+
+<select id="tokenSelect"></select>
+<button onclick="addFromSelect()">Agregar</button>
+
+<br><br>
+
+<input id="pinInput" placeholder="Pegar contrato manual">
+<button onclick="addPinned()">Pinear</button>
+
+<div id="watch"></div>
+</div>
+
+<div class="section">
+<h2 id="titleMax">🔴 Máxima Alerta</h2>
 <div id="max"></div>
-<div class="panel locked">🔒 PRO</div>
-<div class="panel locked">🔒 PRO</div>
 </div>
 
-<!-- TRACKING -->
 <div class="section">
-<h2 id="h2_tracking">📊 Seguimiento</h2>
+<h2 id="titleTracking">📊 Seguimiento</h2>
 <div id="early"></div>
 </div>
 
-<!-- SMART MONEY -->
 <div class="section">
-<h2 id="h2_smart">🐋 Smart Money</h2>
+<h2 id="titleWhales">🐋 Smart Money</h2>
 <div id="whales"></div>
-<div class="panel locked">🔒 PRO</div>
-<div class="panel locked">🔒 PRO</div>
 </div>
 
-<!-- RANKING -->
 <div class="section">
-<h2 id="h2_ranking">🌍 Ranking</h2>
+<h2 id="titleRanking">🌍 Ranking</h2>
 <table class="table">
-<thead id="table_head">
+<thead>
 <tr>
-<th id="th_token">Token</th><th id="th_price">Precio</th><th id="th_change">%</th><th id="th_vol">Vol</th><th id="th_liq">Liq</th>
-<th id="th_score">Score IA</th><th id="th_early">Early</th><th id="th_signal">Señal</th><th id="th_dex">DEX</th><th id="th_contract">Contrato</th>
+<th>Token</th><th>Precio</th><th>%</th><th>Vol</th><th>Liq</th>
+<th>Score IA</th><th>Early</th><th>Señal</th><th>DEX</th><th>Contrato</th><th></th>
 </tr>
 </thead>
 <tbody id="rank"></tbody>
 </table>
 </div>
 
-<div class="notice" id="notice2">
-🌿 La pérdida masiva de árboles acelera el cambio climático al liberar CO₂.  
-Reforestar limpia el aire, enfría ciudades y protege la biodiversidad.  
-Tu apoyo puede generar impacto positivo.
-</div>
-
 <script>
 let tokens=[];
-let currentLang = 'es';
-
-const translations = {
-  es: {
-    title: "🌱 GemRadar AI 🚀 FREE",
-    pro1: " 💳 Monthly PRO mensual $5.99",
-    pro2: "💎 Lifetime PRO de por vida $39.99 ",
-    tip: "💚🍃DONAR Apoya las iniciativas positivas",
-    notice1: "⚠️ Versión FREE limitada. Mejora a PRO para desbloquear análisis completo, smart money y ranking avanzado.",
-    updateBtn: "🔄 Actualizar",
-    status_scanning: "Escaneando...",
-    status_ready: "Listo",
-    h2_early: "🧨 Early Gems",
-    h2_watchlist: "📌 Watchlist (PRO)",
-    watchlist_text: "🔒 Disponible en PRO",
-    h2_max: "🔴 Máxima Alerta",
-    h2_tracking: "📊 Seguimiento",
-    h2_smart: "🐋 Smart Money",
-    h2_ranking: "🌍 Ranking",
-    th_token: "Token", th_price: "Precio", th_change: "%", th_vol: "Vol", th_liq: "Liq",
-    th_score: "Score IA", th_early: "Early", th_signal: "Señal", th_dex: "DEX", th_contract: "Contrato",
-    notice2: "🌿 La pérdida masiva de árboles acelera el cambio climático al liberar CO₂.\nReforestar limpia el aire, enfría ciudades y protege la biodiversidad.\nTu apoyo puede generar impacto positivo.",
-    nul: "❌ NULO", noenter: "⛔ NO ENTRAR", watch: "👀 OBSERVAR", enter: "🟡 ENTRAR", strong: "🟢 ENTRADA"
-  },
-  en: {
-    title: "🌱 GemRadar AI 🚀 FREE",
-    pro1: "💳 Monthly PRO $5.99",
-    pro2: "💎Lifetime PRO $39.99",
-    tip: "💚🍃DONATE Support initiatives that inspire",
-    notice1: "⚠️ FREE version limited. Upgrade to PRO for full analysis, smart money & advanced ranking.",
-    updateBtn: "🔄 Update",
-    status_scanning: "Scanning...",
-    status_ready: "Ready",
-    h2_early: "🧨 Early Gems",
-    h2_watchlist: "📌 Watchlist (PRO)",
-    watchlist_text: "🔒 Available in PRO",
-    h2_max: "🔴 Max Alert",
-    h2_tracking: "📊 Tracking",
-    h2_smart: "🐋 Smart Money",
-    h2_ranking: "🌍 Ranking",
-    th_token: "Token", th_price: "Price", th_change: "%", th_vol: "Vol", th_liq: "Liq",
-    th_score: "AI Score", th_early: "Early", th_signal: "Signal", th_dex: "DEX", th_contract: "Contract",
-    notice2: "🌿 Massive tree loss accelerates climate change by releasing CO₂.\nReforestation cleans air, cools cities & protects biodiversity.\nYour support creates positive impact.",
-    nul: "❌ NULL", noenter: "⛔ DON'T ENTER", watch: "👀 WATCH", enter: "🟡 ENTER", strong: "🟢 STRONG BUY"
-  },
-  pt: {
-    title: "🌱 GemRadar AI 🚀 GRÁTIS",
-    pro1: "💳 PRO $5.99",
-    pro2: "💎 PRO $39.99",
-    tip: "💚 DOAR",
-    notice1: "⚠️ Versão FREE limitada. Melhore para PRO para análise completa, smart money e ranking avançado.",
-    updateBtn: "🔄 Atualizar",
-    status_scanning: "Escaneando...",
-    status_ready: "Pronto",
-    h2_early: "🧨 Early Gems",
-    h2_watchlist: "📌 Watchlist (PRO)",
-    watchlist_text: "🔒 Disponível no PRO",
-    h2_max: "🔴 Alerta Máximo",
-    h2_tracking: "📊 Rastreamento",
-    h2_smart: "🐋 Smart Money",
-    h2_ranking: "🌍 Ranking",
-    th_token: "Token", th_price: "Preço", th_change: "%", th_vol: "Vol", th_liq: "Liq",
-    th_score: "Score IA", th_early: "Early", th_signal: "Sinal", th_dex: "DEX", th_contract: "Contrato",
-    notice2: "🌿 Perda massiva de árvores acelera mudanças climáticas liberando CO₂.\nReflorestamento limpa o ar, esfria cidades e protege biodiversidade.\nSeu apoio gera impacto positivo.",
-    nul: "❌ NULO", noenter: "⛔ NÃO ENTRE", watch: "👀 OBSERVAR", enter: "🟡 ENTRAR", strong: "🟢 COMPRA"
-  },
-  ar: {
-    title: "🌱 GemRadar AI 🚀 مجاني",
-    pro1: "💳 PRO $5.99",
-    pro2: "💎 PRO $39.99",
-    tip: "💚 تبرع",
-    notice1: "⚠️ إصدار مجاني محدود. ترقية إلى PRO لتحليل كامل، أموال ذكية وترتيب متقدم.",
-    updateBtn: "🔄 تحديث",
-    status_scanning: "جاري الفحص...",
-    status_ready: "جاهز",
-    h2_early: "🧨 جواهر مبكرة",
-    h2_watchlist: "📌 قائمة المراقبة (PRO)",
-    watchlist_text: "🔒 متاح في PRO",
-    h2_max: "🔴 تنبيه قصوى",
-    h2_tracking: "📊 تتبع",
-    h2_smart: "🐋 أموال ذكية",
-    h2_ranking: "🌍 الترتيب",
-    th_token: "الرمز", th_price: "السعر", th_change: "%", th_vol: "حجم", th_liq: "السيولة",
-    th_score: "درجة IA", th_early: "مبكر", th_signal: "الإشارة", th_dex: "DEX", th_contract: "العقد",
-    notice2: "🌿 فقدان الأشجار الضخم يسرع التغير المناخي بإطلاق CO₂.\nإعادة التشجير تنظف الهواء، تبرد المدن وتحمي التنوع البيولوجي.\nدعمك يحدث تأثير إيجابي.",
-    nul: "❌ فارغ", noenter: "⛔ لا تدخل", watch: "👀 راقب", enter: "🟡 أدخل", strong: "🟢 شراء قوي"
-  }
-};
+let pinned=JSON.parse(localStorage.getItem('pinned')||'[]');
+let auto=false, interval;
 
 const el={
   status:document.getElementById('status'),
   pump:document.getElementById('pump'),
+  micro:document.getElementById('micro'),
   max:document.getElementById('max'),
   early:document.getElementById('early'),
   whales:document.getElementById('whales'),
-  rank:document.getElementById('rank')
+  watch:document.getElementById('watch'),
+  rank:document.getElementById('rank'),
+  tokenSelect:document.getElementById('tokenSelect'),
+  searchResults:document.getElementById('searchResults'),
+  searchInput:document.getElementById('searchInput'),
+  pinInput:document.getElementById('pinInput')
 };
 
-function setLanguage(lang) {
-  currentLang = lang;
-  const t = translations[lang];
-  
-  document.getElementById('title').textContent = t.title;
-  document.getElementById('pro1').textContent = t.pro1;
-  document.getElementById('pro2').textContent = t.pro2;
-  document.getElementById('tip').textContent = t.tip;
-  document.getElementById('notice1').textContent = t.notice1;
-  document.getElementById('updateBtn').textContent = t.updateBtn;
-  document.getElementById('h2_early').textContent = t.h2_early;
-  document.getElementById('h2_watchlist').textContent = t.h2_watchlist;
-  document.getElementById('watchlist_text').textContent = t.watchlist_text;
-  document.getElementById('h2_max').textContent = t.h2_max;
-  document.getElementById('h2_tracking').textContent = t.h2_tracking;
-  document.getElementById('h2_smart').textContent = t.h2_smart;
-  document.getElementById('h2_ranking').textContent = t.h2_ranking;
-  document.getElementById('notice2').textContent = t.notice2;
-  
-  // Table headers
-  document.getElementById('th_token').textContent = t.th_token;
-  document.getElementById('th_price').textContent = t.th_price;
-  document.getElementById('th_change').textContent = t.th_change;
-  document.getElementById('th_vol').textContent = t.th_vol;
-  document.getElementById('th_liq').textContent = t.th_liq;
-  document.getElementById('th_score').textContent = t.th_score;
-  document.getElementById('th_early').textContent = t.th_early;
-  document.getElementById('th_signal').textContent = t.th_signal;
-  document.getElementById('th_dex').textContent = t.th_dex;
-  document.getElementById('th_contract').textContent = t.th_contract;
+function cleanText(t){
+  return (t||'').replace(/[<>]/g,'').slice(0,20);
 }
 
 function score(t){
@@ -322,12 +136,11 @@ function score(t){
 }
 
 function decision(s){
-  const t = translations[currentLang];
-  if(s<=2) return t.nul;
-  if(s<=4) return t.noenter;
-  if(s<=6) return t.watch;
-  if(s<=8) return t.enter;
-  return t.strong;
+  if(s<=2) return "❌ NULO";
+  if(s<=4) return "⛔ NO ENTRAR";
+  if(s<=6) return "👀 OBSERVAR";
+  if(s<=8) return "🟡 ENTRAR";
+  return "🟢 ENTRADA";
 }
 
 function earlyScore(t){
@@ -339,6 +152,15 @@ function earlyScore(t){
   return Math.min(10,s);
 }
 
+function microScore(t){
+  let s=0;
+  if(t.liq>1000 && t.liq<30000) s+=3;
+  if(t.vol>2000) s+=2;
+  if(t.chg>3) s+=2;
+  if(t.age<3) s+=3;
+  return Math.min(10,s);
+}
+
 function whale(t){
   let b=t.txns?.h24?.buys||0;
   let s=t.txns?.h24?.sells||0;
@@ -346,8 +168,7 @@ function whale(t){
 }
 
 async function runDetector(){
-  const t = translations[currentLang];
-  el.status.innerText = t.status_scanning;
+  el.status.innerText="Escaneando...";
 
   let queries=['new','pump','launch','memecoin','trending'];
   let all=[];
@@ -375,7 +196,7 @@ async function runDetector(){
     let age=t.pairCreatedAt?(Date.now()-t.pairCreatedAt)/3600000:999;
 
     return{
-      name:t.baseToken.symbol,
+      name:cleanText(t.baseToken.symbol),
       price:t.priceUsd||0,
       liq,vol,chg,age,
       address:t.baseToken.address,
@@ -383,21 +204,46 @@ async function runDetector(){
       txns:t.txns,
       ai:score({liq,vol,chg,age}),
       early:earlyScore({liq,vol,chg,age}),
+      micro:microScore({liq,vol,chg,age}),
       whale:whale(t)
     };
   });
 
   render();
-  el.status.innerText = t.status_ready;
+  el.status.innerText="Listo";
 }
 
 function render(){
-  let sorted=[...tokens].sort((a,b)=>b.ai-a.ai);
+  let sorted=[...tokens].sort((a,b)=>{
+    if(b.ai>=9 && a.ai<9) return 1;
+    if(a.ai>=9 && b.ai<9) return -1;
+    return b.ai-a.ai;
+  });
 
-  el.pump.innerHTML=sorted.filter(t=>t.early>=4).slice(0,2).map(card).join('');
-  el.max.innerHTML=sorted.filter(t=>t.ai>=8).slice(0,2).map(card).join('');
-  el.early.innerHTML=sorted.filter(t=>t.ai>=6 && t.ai<8).slice(0,5).map(card).join('');
-  el.whales.innerHTML=sorted.filter(t=>t.whale).slice(0,1).map(card).join('');
+  el.pump.innerHTML=sorted.filter(t=>t.early>=4).map(card).join('');
+
+  el.micro.innerHTML=sorted
+    .filter(t=>t.micro>=5)
+    .slice(0,30)
+    .map(t=>card(t)+"<div style='color:#f87171'>⚠️ ALTO RIESGO</div>")
+    .join('');
+
+  el.max.innerHTML=sorted.filter(t=>t.ai>=8).map(card).join('');
+  el.early.innerHTML=sorted.filter(t=>t.ai>=6 && t.ai<8).map(card).join('');
+  el.whales.innerHTML=sorted.filter(t=>t.whale).map(card).join('');
+
+  el.watch.innerHTML=pinned.map(a=>{
+    let t=tokens.find(x=>x.address===a);
+    return t?card(t,true):'';
+  }).join('');
+
+  el.tokenSelect.innerHTML='<option>Selecciona...</option>';
+  tokens.slice(0,50).forEach(t=>{
+    let o=document.createElement('option');
+    o.value=t.address;
+    o.textContent=t.name;
+    el.tokenSelect.appendChild(o);
+  });
 
   el.rank.innerHTML=sorted.slice(0,50).map(t=>`
   <tr>
@@ -411,12 +257,14 @@ function render(){
     <td>${decision(t.ai)}</td>
     <td>${t.dex}</td>
     <td class="contract">${t.address}</td>
+    <td><button onclick="pin('${t.address}')">📌</button></td>
   </tr>`).join('');
 }
 
 function card(t){
-  return `
-  <div class="panel">
+  let isPinned=pinned.includes(t.address);
+
+  return `<div class="panel">
   <b>${t.name}</b> ${t.whale?'🐋':''}<br>
   💲 ${t.price}<br>
   📈 ${t.chg}%<br>
@@ -425,17 +273,67 @@ function card(t){
   ${decision(t.ai)}<br>
   💧 Vol: ${t.vol} | Liq: ${t.liq}<br>
   <div class="contract">${t.address}</div>
+  ${isPinned
+    ? `<button onclick="removePin('${t.address}')">❌</button>`
+    : `<button onclick="pin('${t.address}')">📌</button>`
+  }
   </div>`;
 }
 
-// INICIALIZACIÓN
-document.getElementById('langSelect').addEventListener('change', function(e){
-  setLanguage(e.target.value);
-});
-document.getElementById('updateBtn').addEventListener('click', runDetector);
+function searchTokens(){
+  let q=el.searchInput.value.toLowerCase();
+  el.searchResults.innerHTML=tokens.filter(t=>
+    t.name.toLowerCase().includes(q)||t.address.toLowerCase().includes(q)
+  ).map(card).join('');
+}
 
-setLanguage('es');
+function clearSearch(){
+  el.searchInput.value='';
+  el.searchResults.innerHTML='';
+}
+
+function addFromSelect(){ if(el.tokenSelect.value) pin(el.tokenSelect.value); }
+function addPinned(){ let v=el.pinInput.value.trim(); if(v) pin(v); }
+
+function pin(a){
+  if(!pinned.includes(a)) pinned.push(a);
+  localStorage.setItem('pinned',JSON.stringify(pinned));
+  render();
+}
+
+function removePin(a){
+  pinned=pinned.filter(x=>x!==a);
+  localStorage.setItem('pinned',JSON.stringify(pinned));
+  render();
+}
+
+function toggleAuto(){
+  auto=!auto;
+  if(auto){runDetector(); interval=setInterval(runDetector,15000);}
+  else clearInterval(interval);
+}
+
 runDetector();
+
+/* 🌐 IDIOMAS */
+const translations={
+  es:{update:"Actualizar",early:"Early Gems",watch:"Watchlist",max:"Máxima Alerta",tracking:"Seguimiento",whales:"Smart Money",ranking:"Ranking"},
+  en:{update:"Update",early:"Early Gems",watch:"Watchlist",max:"Max Alert",tracking:"Tracking",whales:"Smart Money",ranking:"Ranking"},
+  pt:{update:"Atualizar",early:"Early Gems",watch:"Watchlist",max:"Alerta Máxima",tracking:"Seguimento",whales:"Smart Money",ranking:"Ranking"},
+  ar:{update:"تحديث",early:"فرص مبكرة",watch:"قائمة المراقبة",max:"تنبيه عالي",tracking:"متابعة",whales:"أموال ذكية",ranking:"تصنيف"}
+};
+
+document.getElementById("langSelect").addEventListener("change", function(){
+  const t=translations[this.value];
+
+  document.getElementById("btnUpdate").innerText="🔄 "+t.update;
+  document.getElementById("titleEarly").innerText="🧨 "+t.early;
+  document.getElementById("titleWatch").innerText="📌 "+t.watch;
+  document.getElementById("titleMax").innerText="🔴 "+t.max;
+  document.getElementById("titleTracking").innerText="📊 "+t.tracking;
+  document.getElementById("titleWhales").innerText="🐋 "+t.whales;
+  document.getElementById("titleRanking").innerText="🌍 "+t.ranking;
+});
 </script>
 
 </body>
